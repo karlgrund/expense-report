@@ -3,19 +3,19 @@ package com.karlgrund.expense.tracker;
 import com.karlgrund.expense.tracker.configuration.ExpenseTrackerConfiguration;
 import com.karlgrund.expense.tracker.dao.PartialPaymentsDAO;
 import com.karlgrund.expense.tracker.dao.PurchaseDAO;
-import com.karlgrund.expense.tracker.dao.TripDAO;
-import com.karlgrund.expense.tracker.dao.TripParticipationDAO;
+import com.karlgrund.expense.tracker.dao.EventDAO;
+import com.karlgrund.expense.tracker.dao.EventParticipantDAO;
 import com.karlgrund.expense.tracker.dao.UserDAO;
 import com.karlgrund.expense.tracker.dto.User;
 import com.karlgrund.expense.tracker.filter.BasicAuthentication;
 import com.karlgrund.expense.tracker.manager.PurchaseManager;
-import com.karlgrund.expense.tracker.manager.TripManager;
+import com.karlgrund.expense.tracker.manager.EventManager;
 import com.karlgrund.expense.tracker.mapper.PurchaseMapper;
-import com.karlgrund.expense.tracker.mapper.TripMapper;
+import com.karlgrund.expense.tracker.mapper.EventMapper;
 import com.karlgrund.expense.tracker.resources.AdministratorResource;
 import com.karlgrund.expense.tracker.resources.PurchaseResource;
 import com.karlgrund.expense.tracker.resources.ReportResource;
-import com.karlgrund.expense.tracker.resources.TripResource;
+import com.karlgrund.expense.tracker.resources.EventResource;
 import com.karlgrund.expense.tracker.resources.UserResource;
 import io.dropwizard.Application;
 import io.dropwizard.auth.AuthValueFactoryProvider;
@@ -50,10 +50,10 @@ public class ExpenseTrackerApplication extends Application<ExpenseTrackerConfigu
         final UserDAO userDAO = jdbi.onDemand(UserDAO.class);
         final PurchaseDAO purchaseDAO = jdbi.onDemand(PurchaseDAO.class);
         final PartialPaymentsDAO partialPaymentsDAO = jdbi.onDemand(PartialPaymentsDAO.class);
-        final TripParticipationDAO tripParticipationDAO = jdbi.onDemand(TripParticipationDAO.class);
-        final TripDAO tripDAO = jdbi.onDemand(TripDAO.class);
+        final EventParticipantDAO eventParticipantDAO = jdbi.onDemand(EventParticipantDAO.class);
+        final EventDAO eventDAO = jdbi.onDemand(EventDAO.class);
 
-        final TripManager tripManager = new TripManager(tripDAO, tripParticipationDAO, userDAO);
+        final EventManager eventManager = new EventManager(eventDAO, eventParticipantDAO, userDAO);
         final PurchaseManager purchaseManager = new PurchaseManager(purchaseDAO, partialPaymentsDAO);
 
         environment.jersey().register(new AuthDynamicFeature(
@@ -66,13 +66,13 @@ public class ExpenseTrackerApplication extends Application<ExpenseTrackerConfigu
         environment.jersey().register(new AuthValueFactoryProvider.Binder<>(User.class));
 
         environment.jersey().register(new AdministratorResource(userDAO));
-        environment.jersey().register(new ReportResource(purchaseManager, tripManager));
-        environment.jersey().register(new TripResource(tripManager));
+        environment.jersey().register(new ReportResource(purchaseManager, eventManager));
+        environment.jersey().register(new EventResource(eventManager));
         environment.jersey().register(new UserResource(userDAO));
-        environment.jersey().register(new PurchaseResource(purchaseManager, tripManager, userDAO));
+        environment.jersey().register(new PurchaseResource(purchaseManager, eventManager, userDAO));
 
         jdbi.registerMapper(new PurchaseMapper(partialPaymentsDAO));
-        jdbi.registerMapper(new TripMapper(tripParticipationDAO));
+        jdbi.registerMapper(new EventMapper(eventParticipantDAO));
     }
 
 }

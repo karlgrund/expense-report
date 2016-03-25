@@ -1,8 +1,8 @@
 # Expense-report
 Dropwizard service for keeping track on [IOU's] (https://en.wikipedia.org/wiki/IOU). This initial commit contains the skeleton of what in the future will be a service with the following:
 - Create users
-- Create trips
-- Add users/participants to trip
+- Create events
+- Add users/participants to event
 - Participants add their expenses
   - Expenses can be in EUR/SEK/HRK
   - Currency will be converted with the exchange rate for the date of the purchase

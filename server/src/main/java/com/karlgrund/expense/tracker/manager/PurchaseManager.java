@@ -36,12 +36,12 @@ public class PurchaseManager {
         return purchase;
     }
 
-    public List<Purchase> getPurchases(String tripName, Optional<String> userEmail) {
+    public List<Purchase> getPurchases(String eventName, Optional<String> userEmail) {
         if (userEmail.isPresent()) {
-            return purchaseDAO.getPurchase(tripName, userEmail.get());
+            return purchaseDAO.getPurchase(eventName, userEmail.get());
         }
 
-        return purchaseDAO.getPurchasesFor(tripName);
+        return purchaseDAO.getPurchasesFor(eventName);
     }
 
     public void storePartialPayment(PartialPayment partialPayment) {

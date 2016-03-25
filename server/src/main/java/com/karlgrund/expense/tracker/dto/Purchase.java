@@ -13,7 +13,7 @@ public class Purchase {
     @NotNull
     private Long price;
     @NotNull
-    private String tripName;
+    private String eventName;
     @NotNull
     private CurrencyId currencyId;
     private List<PartialPayment> partialPayments;
@@ -22,14 +22,14 @@ public class Purchase {
     @JsonCreator
     public Purchase(
         @JsonProperty("price") Long price,
-        @JsonProperty("trip_name") String tripName,
+        @JsonProperty("event_name") String eventName,
         @JsonProperty("currency") String currencyId,
         @JsonProperty("partialpayment") List<PartialPayment> partialPayments,
         @JsonProperty("created") Date created
     ) {
         this(
             UUID.randomUUID().toString(),
-            tripName,
+            eventName,
             price,
             CurrencyId.valueOf(currencyId),
             partialPayments,
@@ -39,14 +39,14 @@ public class Purchase {
 
     public Purchase(
         String purchaseUUID,
-        String tripName,
+        String eventName,
         Long price,
         CurrencyId currencyId,
         List<PartialPayment> partialPayments,
         Date purchaseDate
     ) {
         this.purchaseUUID = purchaseUUID;
-        this.tripName = tripName;
+        this.eventName = eventName;
         this.price = price;
         this.currencyId = currencyId;
         this.partialPayments = partialPayments;
@@ -58,8 +58,8 @@ public class Purchase {
         return purchaseUUID;
     }
 
-    public String getTripName() {
-        return tripName;
+    public String getEventName() {
+        return eventName;
     }
 
     public List<PartialPayment> getPartialPayments() {
@@ -79,7 +79,7 @@ public class Purchase {
     }
 
     public void update(Purchase purchase) {
-        this.tripName = purchase.getTripName();
+        this.eventName = purchase.getEventName();
         this.price = purchase.getPrice();
         this.currencyId = purchase.getCurrencyId();
         this.partialPayments = purchase.getPartialPayments();

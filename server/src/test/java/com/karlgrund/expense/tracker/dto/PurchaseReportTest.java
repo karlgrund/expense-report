@@ -9,7 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class PurchaseReportTest {
-    private static final String TRIP_NAME = "Trip Name";
+    private static final String EVENT_NAME = "Event Name";
     private static final String EMAIL1 = "test@gmail.com";
     private static final String EMAIL2 = "prov@gmail.com";
     private PurchaseReport purchaseReport;
@@ -17,7 +17,7 @@ public class PurchaseReportTest {
 
     @Before
     public void setUp() {
-        Trip trip = new Trip(TRIP_NAME, Arrays.asList(EMAIL1, EMAIL2));
+        Event event = new Event(EVENT_NAME, Arrays.asList(EMAIL1, EMAIL2));
         PartialPayment partialPayment1 = new PartialPayment(
             EMAIL1,
             25L
@@ -29,7 +29,7 @@ public class PurchaseReportTest {
 
         Purchase purchase = new Purchase(
             100L,
-            TRIP_NAME,
+            EVENT_NAME,
             "SEK",
             Arrays.asList(partialPayment1, partialPayment2),
             new Date()
@@ -37,7 +37,7 @@ public class PurchaseReportTest {
 
         Purchase purchase2 = new Purchase(
             100L,
-            TRIP_NAME,
+            EVENT_NAME,
             "EUR",
             Arrays.asList(partialPayment1, partialPayment2),
             new Date()
@@ -45,7 +45,7 @@ public class PurchaseReportTest {
 
         purchaseReport = new PurchaseReport(
             Arrays.asList(purchase, purchase2),
-            trip,
+            event,
             new CurrencyConverter()
         );
     }

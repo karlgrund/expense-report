@@ -5,17 +5,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 import javax.validation.constraints.NotNull;
 
-public class Trip {
+public class Event {
     @NotNull
-    private String tripName;
+    private String eventName;
     private List<String> participantEmail;
 
     @JsonCreator
-    public Trip(
-        @JsonProperty("trip_name") String tripName,
+    public Event(
+        @JsonProperty("event_name") String eventName,
         @JsonProperty("participants") List<String> participantEmail
     ) {
-        this.tripName = tripName;
+        this.eventName = eventName;
         this.participantEmail = participantEmail;
     }
 
@@ -23,8 +23,8 @@ public class Trip {
         return participantEmail.contains(userEmail);
     }
 
-    public String getTripName() {
-        return tripName;
+    public String getEventName() {
+        return eventName;
     }
 
     public List<String> getParticipantEmails() {

@@ -1,0 +1,32 @@
+# DEVELOPMENT CONFIGURATION
+
+# HTTP-specific options.
+server:
+  applicationConnectors:
+    - type: http
+      port: 1130
+  adminConnectors:
+    - type: http
+      port: 1131
+
+database:
+  driverClass: org.postgresql.Driver
+  url: "jdbc:postgresql://localhost:5432/costsplitter"
+  user: Johan
+#  password: {{ db_password }}
+  properties:
+    charSet: UTF-8
+  minSize: 1
+  maxSize: 20
+
+logging:
+  level: INFO
+  appenders:
+    - type: console
+      threshold: ALL
+
+metrics:
+  reporters:
+    - type: log
+      frequency: 120m
+      logger: metrics

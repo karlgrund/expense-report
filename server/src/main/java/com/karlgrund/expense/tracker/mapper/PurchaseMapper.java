@@ -25,7 +25,7 @@ public class PurchaseMapper implements ResultSetMapper<Purchase> {
 
         Purchase purchase = new Purchase(
             resultSet.getString("uuid"),
-            resultSet.getString("trip_name"),
+            resultSet.getString("event_name"),
             resultSet.getLong("price"),
             CurrencyId.valueOf(resultSet.getString("currency")),
             new ArrayList<>(),

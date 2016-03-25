@@ -8,14 +8,14 @@ import java.util.Map;
 public class Report {
     private Map<String, String> expenses = new HashMap<>();
     private DecimalFormat df = new DecimalFormat("#.00");
-    private Trip trip;
+    private Event event;
 
-    public Report(Trip trip) {
-        this.trip = trip;
+    public Report(Event event) {
+        this.event = event;
     }
 
-    public Trip getTrip() {
-        return trip;
+    public Event getEvent() {
+        return event;
     }
 
     public Map<String, String> getExpenses() {

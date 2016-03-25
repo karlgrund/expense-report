@@ -19,34 +19,34 @@ public abstract class PurchaseDAO {
     public abstract Purchase purchaseExists(@BindBean Purchase purchase);
 
     @SqlUpdate("INSERT INTO "
-        + "purchase(uuid, trip_name, price, currency, purchase_date) "
+        + "purchase(uuid, event_name, price, currency, purchase_date) "
         + "VALUES( "
         + ":purchaseUUID, "
-        + ":tripName, "
+        + ":eventName, "
         + ":price, "
         + ":currencyId, "
         + ":purchaseDate)")
     public abstract void store(@BindBean Purchase purchase);
 
     @SqlQuery("SELECT * FROM purchase "
-        + "WHERE trip_name = :tripName")
-    public abstract List<Purchase> getPurchasesFor(@Bind("tripName") String tripName);
+        + "WHERE event_name = :eventName")
+    public abstract List<Purchase> getPurchasesFor(@Bind("eventName") String eventName);
 
     @SqlQuery("SELECT * FROM purchase "
         + "WHERE uuid = :uuid")
     public abstract Purchase getPurchase(@Bind("uuid") String purchaseUUID);
 
     @SqlQuery("SELECT p.uuid, "
-        + "p.trip_name,"
+        + "p.event_name,"
         + "p.price,"
         + "p.currency,"
         + "p.purchase_date "
         + "FROM purchase p "
         + "INNER JOIN partial_payments pp "
         + "ON p.uuid = pp.purchase_uuid "
-        + "WHERE trip_name = :tripName "
+        + "WHERE event_name = :eventName "
         + "AND pp.email = :email")
-    public abstract List<Purchase> getPurchase(@Bind("tripName") String tripName, @Bind("email") String email);
+    public abstract List<Purchase> getPurchase(@Bind("eventName") String eventName, @Bind("email") String email);
 
     @SqlUpdate("DELETE FROM purchase where uuid = :purchaseUUID")
     public abstract void remove(@Bind("purchaseUUID") String purchaseUUID);

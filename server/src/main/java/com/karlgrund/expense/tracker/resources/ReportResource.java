@@ -2,9 +2,9 @@ package com.karlgrund.expense.tracker.resources;
 
 import com.karlgrund.expense.tracker.dto.Purchase;
 import com.karlgrund.expense.tracker.dto.Report;
-import com.karlgrund.expense.tracker.dto.Trip;
+import com.karlgrund.expense.tracker.dto.Event;
 import com.karlgrund.expense.tracker.manager.PurchaseManager;
-import com.karlgrund.expense.tracker.manager.TripManager;
+import com.karlgrund.expense.tracker.manager.EventManager;
 import com.karlgrund.expense.tracker.util.CurrencyConverter;
 import com.karlgrund.expense.tracker.util.dto.PurchaseReport;
 import java.util.List;
@@ -23,32 +23,32 @@ import javax.ws.rs.core.MediaType;
 public class ReportResource {
 
     private PurchaseManager purchaseManager;
-    private TripManager tripManager;
+    private EventManager eventManager;
 
-    public ReportResource(PurchaseManager purchaseManager, TripManager tripManager) {
+    public ReportResource(PurchaseManager purchaseManager, EventManager eventManager) {
         this.purchaseManager = purchaseManager;
-        this.tripManager = tripManager;
+        this.eventManager = eventManager;
     }
 
     @GET
     public Report generateReport(
-        @QueryParam("tripName") String tripName
+        @QueryParam("eventName") String eventName
     ) {
 
-        Trip trip = tripManager.findTrip(tripName);
+        Event event = eventManager.findEvent(eventName);
         List<Purchase> purchases = purchaseManager.getPurchases(
-            tripName,
+            eventName,
             Optional.empty()
         );
         if (purchases.isEmpty()) {
-            throw new BadRequestException("No purchases made on the trip");
+            throw new BadRequestException("No purchases made on the event");
         }
         PurchaseReport purchaseReport = new PurchaseReport(
             purchases,
-            trip,
+            event,
             new CurrencyConverter()
         );
-        Report report = new Report(trip);
+        Report report = new Report(event);
 
         report.addExpenses(purchaseReport);
 

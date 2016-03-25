@@ -4,7 +4,7 @@ import com.karlgrund.expense.tracker.dao.UserDAO;
 import com.karlgrund.expense.tracker.dto.PartialPayment;
 import com.karlgrund.expense.tracker.dto.Purchase;
 import com.karlgrund.expense.tracker.manager.PurchaseManager;
-import com.karlgrund.expense.tracker.manager.TripManager;
+import com.karlgrund.expense.tracker.manager.EventManager;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -25,16 +25,16 @@ import javax.ws.rs.core.MediaType;
 @Path("purchase")
 public class PurchaseResource {
     private PurchaseManager purchaseManager;
-    private TripManager tripManager;
+    private EventManager eventManager;
     private UserDAO userDAO;
 
     public PurchaseResource(
         PurchaseManager purchaseManager,
-        TripManager tripManager,
+        EventManager eventManager,
         UserDAO userDAO
     ) {
         this.purchaseManager = purchaseManager;
-        this.tripManager = tripManager;
+        this.eventManager = eventManager;
         this.userDAO = userDAO;
     }
 
@@ -76,12 +76,12 @@ public class PurchaseResource {
 
     @GET
     public List<Purchase> getPurchases(
-        @QueryParam("tripId") String tripName,
+        @QueryParam("eventId") String eventName,
         @QueryParam("userEmail") String userEmail
     ) {
-        tripManager.validateTrip(tripName);
+        eventManager.validateEvent(eventName);
 
-        return purchaseManager.getPurchases(tripName, Optional.ofNullable(userEmail));
+        return purchaseManager.getPurchases(eventName, Optional.ofNullable(userEmail));
     }
 
     private void purchaseExists(Purchase purchase) {
@@ -91,8 +91,8 @@ public class PurchaseResource {
     }
 
     private void validatePurchase(Purchase purchase) {
-        // See if trip exists
-        tripManager.validateTrip(purchase.getTripName());
+        // See if event exists
+        eventManager.validateEvent(purchase.getEventName());
 
         // Everything is paid for
         Long totalAmount = purchase.getPartialPayments()
